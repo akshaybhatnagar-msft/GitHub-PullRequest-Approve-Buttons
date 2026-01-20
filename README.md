@@ -2,6 +2,10 @@
 
 A Chrome extension that adds quick-action buttons to GitHub pull request pages for common operations that are typically buried in submenus.
 
+## Icon
+
+<img src="icons/icon.svg" width="128" height="128" alt="Extension Icon - Rocket on Moon"/>
+
 ## Screenshots
 
 ### Button Location
