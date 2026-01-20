@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GitHub PR Quick Actions - Chrome Extension</title>
+  <meta name="description" content="Add quick-action buttons to GitHub PRs for one-click reviews, approvals, merges, and auto-merge.">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      color: #ffffff;
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+
+    header {
+      text-align: center;
+      padding: 60px 0;
+    }
+
+    .logo {
+      width: 128px;
+      height: 128px;
+      margin-bottom: 24px;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+
+    .tagline {
+      font-size: 1.25rem;
+      color: #8b949e;
+      margin-bottom: 32px;
+    }
+
+    .cta-buttons {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 28px;
+      font-size: 1rem;
+      font-weight: 600;
+      text-decoration: none;
+      border-radius: 8px;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    }
+
+    .btn-chrome {
+      background: #1f883d;
+      color: #ffffff;
+    }
+
+    .btn-edge {
+      background: #0078d4;
+      color: #ffffff;
+    }
+
+    .btn-github {
+      background: #21262d;
+      color: #ffffff;
+      border: 1px solid #30363d;
+    }
+
+    .features {
+      padding: 60px 0;
+    }
+
+    .features h2 {
+      text-align: center;
+      font-size: 1.75rem;
+      margin-bottom: 40px;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 24px;
+    }
+
+    .feature-card {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 24px;
+    }
+
+    .feature-card h3 {
+      font-size: 1.1rem;
+      margin-bottom: 8px;
+      color: #58a6ff;
+    }
+
+    .feature-card p {
+      color: #8b949e;
+      font-size: 0.95rem;
+    }
+
+    .screenshot {
+      padding: 40px 0;
+      text-align: center;
+    }
+
+    .screenshot img {
+      max-width: 100%;
+      border-radius: 12px;
+      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.4);
+    }
+
+    .screenshot-caption {
+      margin-top: 16px;
+      color: #8b949e;
+      font-size: 0.9rem;
+    }
+
+    footer {
+      text-align: center;
+      padding: 40px 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      margin-top: 40px;
+    }
+
+    footer a {
+      color: #58a6ff;
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 24px;
+      justify-content: center;
+      margin-bottom: 16px;
+    }
+
+    .copyright {
+      color: #6e7681;
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <img src="../icons/icon128.png" alt="GitHub PR Quick Actions" class="logo">
+      <h1>GitHub PR Quick Actions</h1>
+      <p class="tagline">Add quick-action buttons to GitHub PRs for one-click reviews, approvals, and merges.</p>
+      <div class="cta-buttons">
+        <a href="#" class="btn btn-chrome">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/></svg>
+          Add to Chrome
+        </a>
+        <a href="#" class="btn btn-edge">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/></svg>
+          Add to Edge
+        </a>
+        <a href="https://github.com/akshaybhatnagar-msft/GitHub-QuickActions" class="btn btn-github">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          View on GitHub
+        </a>
+      </div>
+    </header>
+
+    <section class="features">
+      <h2>Features</h2>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <h3>Quick Reviews</h3>
+          <p>Approve, comment, or request changes with a single click. Add optional comments via a clean modal.</p>
+        </div>
+        <div class="feature-card">
+          <h3>Squash & Merge</h3>
+          <p>Merge PRs instantly without navigating through dropdown menus.</p>
+        </div>
+        <div class="feature-card">
+          <h3>Auto-Merge</h3>
+          <p>Enable or disable auto-merge with one click. The button toggles based on current state.</p>
+        </div>
+        <div class="feature-card">
+          <h3>Close PRs</h3>
+          <p>Close pull requests directly from the header without hunting through menus.</p>
+        </div>
+        <div class="feature-card">
+          <h3>Comment Count</h3>
+          <p>See the number of review comments at a glance, right below the action buttons.</p>
+        </div>
+        <div class="feature-card">
+          <h3>Dark Mode</h3>
+          <p>Automatically matches GitHub's light or dark theme for a seamless experience.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="screenshot">
+      <img src="../screenshots/Step2_ButtonsShowUp.png" alt="GitHub PR Quick Actions in action">
+      <p class="screenshot-caption">Review and Actions buttons appear right in the PR header</p>
+    </section>
+
+    <footer>
+      <div class="footer-links">
+        <a href="https://github.com/akshaybhatnagar-msft/GitHub-QuickActions">GitHub</a>
+        <a href="https://github.com/akshaybhatnagar-msft/GitHub-QuickActions/issues">Support</a>
+        <a href="https://github.com/akshaybhatnagar-msft/GitHub-QuickActions/blob/master/THREATMODEL.md">Security</a>
+      </div>
+      <p class="copyright">MIT License</p>
+    </footer>
+  </div>
+</body>
+</html>
