@@ -2,22 +2,6 @@
 
 A Chrome extension that adds quick-action buttons to GitHub pull request pages for common operations that are typically buried in submenus.
 
-## Icon
-
-<img src="icons/icon.svg" width="128" height="128" alt="Extension Icon - Rocket on Moon"/>
-
-## Screenshots
-
-### Button Location
-The extension adds quick action buttons in the PR header area:
-
-![Button Location](screenshots/ProposedButtons.png)
-
-### Review Modal
-Selecting a review type opens a modal similar to GitHub's native review dialog:
-
-![Review Modal](screenshots/Review_Comments.png)
-
 ## Features
 
 - **Review Dropdown** - Submit reviews with a single click
@@ -45,18 +29,29 @@ Selecting a review type opens a modal similar to GitHub's native review dialog:
 
 ## Configuration
 
-1. Click the extension icon in the Chrome toolbar
-2. Generate a GitHub Personal Access Token at https://github.com/settings/tokens/new
+### Step 1: Add Your Personal Access Token
+
+Click the extension icon in the Chrome toolbar to open the configuration popup.
+
+![Step 1 - Add PAT Token](screenshots/Step1_Add_PAT_token.png)
+
+1. Generate a GitHub Personal Access Token at https://github.com/settings/tokens/new
    - Required scope: `repo` (for private repositories) or `public_repo` (for public only)
    - If your organization uses SAML SSO, authorize the token for your org after creation
-3. Paste the token and click **Save Token**
+2. Paste the token and click **Save Token**
 
-## Usage
+Once saved, the status will show "PAT configured":
 
-Navigate to any GitHub pull request page. The quick action buttons will appear in the PR header area.
+![Step 1 - PAT Token Added](screenshots/Step1_PAT_token_added.png)
 
-- **Review** - Click to open dropdown, select review type, add optional comment in modal, submit
-- **Actions** - Click to open dropdown, select action (with confirmation for destructive operations)
+### Step 2: Use the Quick Actions
+
+Navigate to any GitHub pull request page. The **Review** and **Actions** buttons will appear in the PR header area:
+
+![Step 2 - Buttons Show Up](screenshots/Step2_ButtonsShowUp.png)
+
+- **Review** - Click to open dropdown with Approve, Comment, Request Changes options
+- **Actions** - Click to open dropdown with Squash & Merge, Auto-Merge, Close PR options
 
 ## Security
 
