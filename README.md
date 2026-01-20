@@ -2,6 +2,18 @@
 
 A Chrome extension that adds quick-action buttons to GitHub pull request pages for common operations that are typically buried in submenus.
 
+## Screenshots
+
+### Button Location
+The extension adds quick action buttons in the PR header area:
+
+![Button Location](screenshots/ProposedButtons.png)
+
+### Review Modal
+Selecting a review type opens a modal similar to GitHub's native review dialog:
+
+![Review Modal](screenshots/Review_Comments.png)
+
 ## Features
 
 - **Review Dropdown** - Submit reviews with a single click
@@ -44,16 +56,55 @@ Navigate to any GitHub pull request page. The quick action buttons will appear i
 
 ## Security
 
-The Personal Access Token is stored using `chrome.storage.sync`:
-- Isolated per extension (other extensions cannot access it)
-- Not accessible to websites or page scripts
-- Encrypted in transit when syncing across devices
-- Stored unencrypted in Chrome's profile directory on disk
+### How the Token is Stored
 
-For maximum security, consider:
-- Using a token with minimal required scopes
-- Regularly rotating your token
-- Not syncing Chrome data if you don't need cross-device access
+The Personal Access Token is stored using `chrome.storage.sync`:
+
+```javascript
+// Storage
+chrome.storage.sync.set({ githubPAT: token });
+
+// Retrieval
+chrome.storage.sync.get(['githubPAT']);
+```
+
+### Security Properties
+
+| Protection | Status |
+|------------|--------|
+| Other extensions cannot access it | Yes - Chrome isolates storage by extension ID |
+| Websites/page scripts cannot access it | Yes - Storage API not exposed to web pages |
+| Encrypted in transit (sync) | Yes - When syncing across devices |
+| Encrypted at rest on disk | **No** - Stored in plain text in Chrome profile |
+
+### Threat Model
+
+**Protected against:**
+- Malicious websites trying to steal your token
+- Other browser extensions accessing your data
+- Network interception (when syncing)
+
+**NOT protected against:**
+- Malware with user-level access on your system (can read Chrome's storage files directly from `~/.config/google-chrome/` on Linux or `%LOCALAPPDATA%\Google\Chrome\` on Windows)
+- Physical access to your unlocked computer
+- Extensions with `debugger` permission that could inspect your extension
+- Token syncing to other devices where you're signed into Chrome
+
+### Recommendations
+
+- Use a token with minimal required scopes (`public_repo` if you only work with public repos)
+- Regularly rotate your token
+- If you don't need cross-device access, consider that the token syncs to all Chrome instances
+- Be cautious about what other software you install on your system
+
+### Alternatives Considered
+
+| Approach | Trade-off |
+|----------|-----------|
+| `chrome.storage.local` instead of `sync` | Keeps token on one machine only, but still unencrypted |
+| Session-only storage | More secure, but requires re-entering token each session |
+| OAuth App flow | More secure, but requires registering a GitHub OAuth app |
+| Encrypt before storing | Where do you store the encryption key? (Chicken-and-egg problem) |
 
 ## Files
 
